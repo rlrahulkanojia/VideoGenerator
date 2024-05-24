@@ -1,0 +1,1 @@
+data/test_images/test.jpg|||Generate a stunning aerial video taken from a drone flying over a picturesque landscape. The video should start with a sweeping view of a lush green valley, move over a flowing river, and then ascend to reveal a panoramic view of majestic mountains in the distance."```
