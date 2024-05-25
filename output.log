@@ -1,6 +1,6 @@
 Iteration executed successfuly...
-Running on local URL:  http://127.0.0.1:7860
-Running on public URL: https://16033ccc85de32ef0e.gradio.live
+Running on local URL:  http://127.0.0.1:7861
+Running on public URL: https://907907ca64b168ab57.gradio.live
 
 This share link expires in 72 hours. For free permanent hosting and GPU upgrades, run `gradio deploy` from Terminal to deploy to Spaces (https://huggingface.co/spaces)
 Generating Image from Dalle-3
@@ -9,75 +9,8 @@ Creating Input list
 Removing earlier generated video
 Runnning video generation
 Run 1 of the script completed
-Renamed "workspace/experiments/gradio_test/gradio_test_01_00_6EBF1A8E1_00.mp4" to "workspace/experiments/gradio_test/1.mp4"
+Renamed "workspace/experiments/gradio_test/gradio_test_01_00_DAADAA073_00.mp4" to "workspace/experiments/gradio_test/1.mp4"
 Last frame saved to data/test_images/gradio_test.jpg
 Saved Last Video at workspace/experiments/gradio_test/1.mp4
-Run 2 of the script completed
-Renamed "workspace/experiments/gradio_test/gradio_test_01_00_9BC557A5D_00.mp4" to "workspace/experiments/gradio_test/2.mp4"
-Last frame saved to data/test_images/gradio_test.jpg
-Saved Last Video at workspace/experiments/gradio_test/2.mp4
-Generating Image from Dalle-3
-Image saved as data/test_images/gradio_test.jpg
-Creating Input list
-Removing earlier generated video
-Runnning video generation
-Run 1 of the script completed
-Renamed "workspace/experiments/gradio_test/gradio_test_01_00_EA0548359_00.mp4" to "workspace/experiments/gradio_test/1.mp4"
-Last frame saved to data/test_images/gradio_test.jpg
-Saved Last Video at workspace/experiments/gradio_test/1.mp4
-Run 2 of the script completed
-Renamed "workspace/experiments/gradio_test/gradio_test_01_00_4E52ADE44_00.mp4" to "workspace/experiments/gradio_test/2.mp4"
-Last frame saved to data/test_images/gradio_test.jpg
-Saved Last Video at workspace/experiments/gradio_test/2.mp4
-Run 3 of the script completed
-Renamed "workspace/experiments/gradio_test/gradio_test_01_00_340C01B6C_00.mp4" to "workspace/experiments/gradio_test/3.mp4"
-Last frame saved to data/test_images/gradio_test.jpg
-Saved Last Video at workspace/experiments/gradio_test/3.mp4
-Generating Image from Dalle-3
-Image saved as data/test_images/gradio_test.jpg
-Creating Input list
-Removing earlier generated video
-Runnning video generation
-Run 1 of the script completed
-Renamed "workspace/experiments/gradio_test/gradio_test_01_00_E77041538_00.mp4" to "workspace/experiments/gradio_test/1.mp4"
-Last frame saved to data/test_images/gradio_test.jpg
-Saved Last Video at workspace/experiments/gradio_test/1.mp4
-Generating Image from Dalle-3
-Image saved as data/test_images/gradio_test.jpg
-Creating Input list
-Removing earlier generated video
-Runnning video generation
-Run 1 of the script completed
-Renamed "workspace/experiments/gradio_test/gradio_test_01_00_B6F78A129_00.mp4" to "workspace/experiments/gradio_test/1.mp4"
-Last frame saved to data/test_images/gradio_test.jpg
-Saved Last Video at workspace/experiments/gradio_test/1.mp4
-Run 2 of the script completed
-Renamed "workspace/experiments/gradio_test/gradio_test_01_00_7F907A56A_00.mp4" to "workspace/experiments/gradio_test/2.mp4"
-Last frame saved to data/test_images/gradio_test.jpg
-Saved Last Video at workspace/experiments/gradio_test/2.mp4
-Generating Image from Dalle-3
-Image saved as data/test_images/gradio_test.jpg
-Creating Input list
-Removing earlier generated video
-Runnning video generation
-Run 1 of the script completed
-Renamed "workspace/experiments/gradio_test/gradio_test_01_00_EB3AA66F2_00.mp4" to "workspace/experiments/gradio_test/1.mp4"
-Last frame saved to data/test_images/gradio_test.jpg
-Saved Last Video at workspace/experiments/gradio_test/1.mp4
-Run 2 of the script completed
-Renamed "workspace/experiments/gradio_test/gradio_test_01_00_51B75B176_00.mp4" to "workspace/experiments/gradio_test/2.mp4"
-Last frame saved to data/test_images/gradio_test.jpg
-Saved Last Video at workspace/experiments/gradio_test/2.mp4
-Run 3 of the script completed
-Renamed "workspace/experiments/gradio_test/gradio_test_01_00_BF17D9D89_00.mp4" to "workspace/experiments/gradio_test/3.mp4"
-Last frame saved to data/test_images/gradio_test.jpg
-Saved Last Video at workspace/experiments/gradio_test/3.mp4
-Generating Image from Dalle-3
-Image saved as data/test_images/gradio_test.jpg
-Creating Input list
-Removing earlier generated video
-Runnning video generation
-Run 1 of the script completed
-Renamed "workspace/experiments/gradio_test/gradio_test_01_00_4D813EF7C_00.mp4" to "workspace/experiments/gradio_test/1.mp4"
-Last frame saved to data/test_images/gradio_test.jpg
-Saved Last Video at workspace/experiments/gradio_test/1.mp4
+Keyboard interruption in main thread... closing server.
+Killing tunnel 127.0.0.1:7861 <> https://907907ca64b168ab57.gradio.live

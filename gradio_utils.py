@@ -13,54 +13,62 @@ os.environ["OPENAI_API_KEY"]=api_key
 def llm_prompt_generator(User_Input):
     os.environ["OPENAI_API_KEY"]="sk-proj-pKaugqFY1WJ19hSq71lrT3BlbkFJVxwwYAMxPfQGX7G3eUOi"
     client = OpenAI()
-    system_role =  """
-                You are an expert in Generative AI image and Video generation
-                Your task is to write prompts that could result in best generation of images and videos given user querry
-                User querry would be a scipt that needs to be reformatted for a well formed prompt
-                <Important>
-                for each user querry you needs to provide 2 prompts video prompt and image prompt
-                User can also guide you in generating prompt by providing insights from his script
+    # system_role =  """
+    #             You are an expert in Generative AI image and Video generation
+    #             Your task is to write prompts that could result in best generation of images and videos given user query
+    #             User querry would be a scipt that needs to be reformatted for a well formed prompt
+    #             <Important>
+    #             for each user querry you needs to provide 2 prompts video prompt and image prompt
+    #             User can also guide you in generating prompt by providing insights from his script
+    #             Do NOT provide an introductory paragraph or sentence.
+    #             Do NOT provide a conclusion.
+    #             Your response should strictly be in JSON format only, with no preamble at the start or end of the JSON only fields should be Video_prompt, Image_prompt
+    #             </Important>
+    #             <Example1>
+    #             User script: city scene of young women walking early morning in sidewalk
+    #             Image_prompt:"A bustling city sidewalk scene during early morning. The street is crowded with a diverse group of people commuting. Focus on a young woman, around 25, with short brown hair, dressed in casual work attire, rushing through the crowd. The city buildings loom in the background with soft morning light filtering through"
+    #             Video_prompt:"Focus on a young woman, around 25, with short brown hair, dressed in casual work attire, rushing through the crowd"
+
+    #             <Example2>
+    #             User script: women tying shoes on a bench
+    #             Image_prompt:"A close-up image of a young woman, mid-20s with a lively face, sitting on a city bench. She is tying her vibrant blue Falcon Footwear sneakers. The focus is on her hands tying the laces, with blurred city movement in the background. Her expression is determined and focused."
+    #             Video_prompt:"A close-up image of a young woman, mid-20s with a lively face, sitting on a city bench. She is tying her vibrant blue Falcon Footwear sneakers."
+
+    #             <Example3>
+    #             User script: women navigating crowded city street and green trail
+    #             Image_prompt:"A dynamic scene showing a young woman, named Emily, navigating a crowded city street on one side, and an open, lush green trail on the other. The image should capture her in motion, half on the bustling city pavement and half on the serene trail. Her attire is sporty, suitable for both environments."
+    #             Video_prompt:"A dynamic scene showing a young woman, named Emily, navigating a crowded city street on one side, and an open, lush green trail on the other."
+
+    #             <Example4>
+    #             User script: Emily stands at overlook and running on beach with friends
+    #             Image_prompt:"Split scene image: On one side, Emily stands at a beautiful overlook, catching her breath with a satisfied smile. The background shows a panoramic view of nature. On the other side, she is running joyously on a sandy beach with a group of friends, all in casual sportswear, laughing and enjoying."
+    #             Video_prompt:"Split scene image: On one side, Emily stands at a beautiful overlook, catching her breath with a satisfied smile. The background shows a panoramic view of nature."
+
+    #             <Example5>
+    #             User script: Emily and friends playing basketball in urban park
+    #             Image_prompt:"An outdoor basketball court scene with Emily and her friends playing basketball. The court is in an urban park. Emily is actively participating in the game, wearing her Falcon Footwear sneakers. The focus is on the action and the energy of the game, with city buildings in the distant background."
+    #             Video_prompt:"An outdoor basketball court scene with Emily and her friends playing basketball. The court is in an urban park."
+
+    #             <Example6>
+    #             User script: Emily in cozy café wearing Falcon Footwear
+    #             Image_prompt:"A warm, inviting image of Emily sitting comfortably in a cozy café, looking out of the window with a thoughtful expression. She's wearing her Falcon Footwear, casually crossed at the ankle. The interior is stylish and modern, suggesting a moment of reflection after a day full of adventures."
+    #             Video_prompt:"A warm, inviting image of Emily sitting comfortably in a cozy café, looking out of the window with a thoughtful expression. She's wearing her Falcon Footwear, casually crossed at the ankle."
+
+    #             <Example7>
+    #             User script: Falcon Footwear sneakers on wooden floor
+    #             Image_prompt:"A simple, elegant image of the Falcon Footwear sneakers on a wooden floor. The lighting focuses on the sneakers, highlighting their vibrant blue color and sleek design. The background is a soft, blurred image of a city skyline during sunset, emphasizing the brand’s urban appeal."
+    #             Video_prompt:"A simple, elegant image of the Falcon Footwear sneakers on a wooden floor."
+
+    #             """
+    
+    system_role = """
+                Read through the provided text prompt carefully. Rewrite it into a single plain English description that objectively and literally depicts the key visual elements - the setting, characters, objects, actions and events occurring. Use straightforward language to factually describe what needs to be shown without any subjective interpretation, metaphorical framing, or creative embellishments. The goal is a clear, unambiguous prompt that can be directly translated into a video representation of the original narrative content. Stick to just the objective details that are visually representable.
+                Your task is to write prompts that could result in best generation of images and videos given user query
                 Do NOT provide an introductory paragraph or sentence.
                 Do NOT provide a conclusion.
-                Your response should strictly be in JSON format only, with no preamble at the start or end of the JSON only fields should be Video_prompt, Image_prompt
-                </Important>
-                <Example1>
-                User script: city scene of young women walking early morning in sidewalk
-                Image_prompt:"A bustling city sidewalk scene during early morning. The street is crowded with a diverse group of people commuting. Focus on a young woman, around 25, with short brown hair, dressed in casual work attire, rushing through the crowd. The city buildings loom in the background with soft morning light filtering through"
-                Video_prompt:"Focus on a young woman, around 25, with short brown hair, dressed in casual work attire, rushing through the crowd"
-
-                <Example2>
-                User script: women tying shoes on a bench
-                Image_prompt:"A close-up image of a young woman, mid-20s with a lively face, sitting on a city bench. She is tying her vibrant blue Falcon Footwear sneakers. The focus is on her hands tying the laces, with blurred city movement in the background. Her expression is determined and focused."
-                Video_prompt:"A close-up image of a young woman, mid-20s with a lively face, sitting on a city bench. She is tying her vibrant blue Falcon Footwear sneakers."
-
-                <Example3>
-                User script: women navigating crowded city street and green trail
-                Image_prompt:"A dynamic scene showing a young woman, named Emily, navigating a crowded city street on one side, and an open, lush green trail on the other. The image should capture her in motion, half on the bustling city pavement and half on the serene trail. Her attire is sporty, suitable for both environments."
-                Video_prompt:"A dynamic scene showing a young woman, named Emily, navigating a crowded city street on one side, and an open, lush green trail on the other."
-
-                <Example4>
-                User script: Emily stands at overlook and running on beach with friends
-                Image_prompt:"Split scene image: On one side, Emily stands at a beautiful overlook, catching her breath with a satisfied smile. The background shows a panoramic view of nature. On the other side, she is running joyously on a sandy beach with a group of friends, all in casual sportswear, laughing and enjoying."
-                Video_prompt:"Split scene image: On one side, Emily stands at a beautiful overlook, catching her breath with a satisfied smile. The background shows a panoramic view of nature."
-
-                <Example5>
-                User script: Emily and friends playing basketball in urban park
-                Image_prompt:"An outdoor basketball court scene with Emily and her friends playing basketball. The court is in an urban park. Emily is actively participating in the game, wearing her Falcon Footwear sneakers. The focus is on the action and the energy of the game, with city buildings in the distant background."
-                Video_prompt:"An outdoor basketball court scene with Emily and her friends playing basketball. The court is in an urban park."
-
-                <Example6>
-                User script: Emily in cozy café wearing Falcon Footwear
-                Image_prompt:"A warm, inviting image of Emily sitting comfortably in a cozy café, looking out of the window with a thoughtful expression. She's wearing her Falcon Footwear, casually crossed at the ankle. The interior is stylish and modern, suggesting a moment of reflection after a day full of adventures."
-                Video_prompt:"A warm, inviting image of Emily sitting comfortably in a cozy café, looking out of the window with a thoughtful expression. She's wearing her Falcon Footwear, casually crossed at the ankle."
-
-                <Example7>
-                User script: Falcon Footwear sneakers on wooden floor
-                Image_prompt:"A simple, elegant image of the Falcon Footwear sneakers on a wooden floor. The lighting focuses on the sneakers, highlighting their vibrant blue color and sleek design. The background is a soft, blurred image of a city skyline during sunset, emphasizing the brand’s urban appeal."
-                Video_prompt:"A simple, elegant image of the Falcon Footwear sneakers on a wooden floor."
-
+                Elaborate the statement with real life examples if the contet provided by user is not clear.
+                Your response should strictly be in JSON format only, with no preamble at the start or end of the JSON only fields should be a "prompt".
                 """
-    
     
     user_query=f"""
             {User_Input}
