@@ -1,1 +1,1 @@
-data/test_images/gradio_test.jpg|||A person is running outside while it is raining.
+data/test_images/gradio_test.jpg|||A robot walking through a city street during the day. The scene is shot in high definition, capturing the robot's movements in detail against the backdrop of urban architecture, vehicles, and pedestrians. The cinematography style is realistic, focusing on the interaction between the robot and its environment.

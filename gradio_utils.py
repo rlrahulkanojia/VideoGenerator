@@ -193,7 +193,7 @@ class Generator:
         self.create_input_list()
 
         print("Removing earlier generated video")
-        self.clear_directory('/root/VGen/workspace/experiments/gradio_test')
+        self.clear_directory('/root/VideoGenerator/workspace/experiments/gradio_test')
         
         print("Runnning video generation")
         # subprocess.run(self.command) 
@@ -236,7 +236,7 @@ class Generator:
                 os.remove(item_path)
 
     def combine_videos(self):
-        os.system("/root/VGen/combine_videos.sh output.mp4")
+        os.system("/root/VideoGenerator/combine_videos.sh output.mp4")
      
     def combine_videos_old(self):
         
