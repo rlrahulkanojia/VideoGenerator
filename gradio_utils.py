@@ -68,6 +68,22 @@ def llm_prompt_generator(User_Input):
                 Do NOT provide a conclusion.
                 Elaborate the statement with real life examples if the contet provided by user is not clear.
                 Your response should strictly be in JSON format only, with no preamble at the start or end of the JSON only fields should be a "prompt".
+            If the scene specification like image quality and cinematography is not present, add those details.
+                <Examples>
+                1. Running cinematic robot piano in the style of Italian avant garde cinema
+                2. Running cinematic action robot piano in the style of Italian avant garde cinema
+                3. Speeding cinematic action robot piano in the style of Italian avant garde cinema
+                4. Speeding cinematic action sci-fi cyborg grand piano in a music hall in the style of Italian avant garde cinema
+                5. Medium shot running cinematic action robot piano in a night club in the style of Italian avant garde cinema
+                6. Medium shot running cinematic action steampunk robot piano in a night club in the style of Italian avant garde cinema
+                7. Speeding flying cinematic steampunk piano machine in the style of Italian avant garde F
+                8. cinema action of steampunk piano robot in a night club in the style of Russian avant garde cinema
+                10. Cinematic action of steampunk piano robot in a cyberpunk flashing neon lights night club in the style of Russian avant garde cinema
+                11. Cinematic action of little piano robot workers in a large piano factory in chiaroscuro noir Gothic lighting
+                12. Fast cinematic action of little piano robot workers in a large piano factory in chiaroscuro cyberpunk neon lighting
+                13. Fast cinematic action of techno piano DJs in a bright dimly lit morning fog on the outskirts of a city surrounded by weeds trees and plants and rusty machines
+                14. HDR Fast cinematic action of flying through a garden of piano flowers on a bright sunny day
+                15. HDR cinematic action of a piano in a garden on a bright day exploding into colorful flower debris pieces
                 """
     
     user_query=f"""
