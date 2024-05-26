@@ -10,8 +10,8 @@ class SQSQueue(object):
  
     def __init__(self, queueName=None):
         self.resource = boto3.resource('sqs', region_name='ap-south-1',
-                                       aws_access_key_id="AKIA3FLD52CJXFCX4BNE",
-                                       aws_secret_access_key="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")
+                                       aws_access_key_id="<>",
+                                       aws_secret_access_key="<>")
         self.queue = self.resource.get_queue_by_name(QueueName=AWS_SQS_QUEUE_NAME)
         self.QueueName = queueName
  
