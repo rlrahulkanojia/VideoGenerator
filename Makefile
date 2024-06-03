@@ -2,6 +2,12 @@ all: static-tests doc-tests unit-tests
 
 .PHONY: all
 
+conda:
+	wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+	chmod +x Miniconda3-latest-Linux-x86_64.sh
+	./Miniconda3-latest-Linux-x86_64.sh -b
+	conda create -n exp python=3.8
+
 setup:
 	
 	sudo apt-get update && apt-get install ffmpeg libsm6 libxext6  -y
@@ -13,6 +19,12 @@ setup:
 download:
 	pip install modelscope
 	python download_models.py
+	mv models/damo/I2VGen-XL/ mv/models/
+
+autostart:
+	echo """echo $(/opt/conda/envs/exp/bin/python --version)
+	cd /root/VGen
+	/opt/conda/envs/exp/bin/python main.py""" > /root/onstart.sh
 
 run: setup download
 	echo "To run the inference, head over the notebook, Inference.ipynb"
