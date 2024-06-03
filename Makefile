@@ -8,6 +8,8 @@ conda:
 	./Miniconda3-latest-Linux-x86_64.sh -b
 	rm Miniconda3-latest-Linux-x86_64.sh
 	conda init
+
+conda-setup:
 	source ~/.bashrc 
 	conda create -n exp python=3.8 -y
 	conda activate exp
@@ -30,5 +32,5 @@ autostart:
 	echo "cd /root/VideoGenerator" > /root/onstart.sh
 	echo "/opt/conda/envs/exp/bin/python /root/VideoGenerator/main.py" >> /root/onstart.sh
 
-run: setup download
-	echo "To run the inference, head over the notebook, Inference.ipynb"
+run: conda conda-setup setup download autostart:
+	echo "Completed"

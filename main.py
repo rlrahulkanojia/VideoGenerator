@@ -88,7 +88,7 @@ class Main:
 
     def upload_video(self, jobID):
         print("Uploading Video to s3")
-        self.queue_checker.s3_access.Bucket(BUCKET).upload_file("/root/VGen/workspace/experiments/gradio_test/output.mp4", f"{jobID}.mp4")
+        self.queue_checker.s3_access.Bucket(BUCKET).upload_file("/root/VideoGenerator/workspace/experiments/gradio_test/output.mp4", f"{jobID}.mp4")
         print("Uploaded Video to s3")  
 
     def check_message(self, message):

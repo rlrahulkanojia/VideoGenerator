@@ -231,7 +231,7 @@ class Generator:
                 os.remove(item_path)
 
     def combine_videos(self):
-        os.system("/root/VGen/combine_videos.sh output.mp4")
+        os.system("/root/VideoGenerator/combine_videos.sh output.mp4")
      
     def combine_videos_old(self):
         
