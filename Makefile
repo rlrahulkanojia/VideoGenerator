@@ -6,11 +6,15 @@ conda:
 	wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 	chmod +x Miniconda3-latest-Linux-x86_64.sh
 	./Miniconda3-latest-Linux-x86_64.sh -b
-	conda create -n exp python=3.8
+	rm Miniconda3-latest-Linux-x86_64.sh
+	conda init
+	source ~/.bashrc 
+	conda create -n exp python=3.8 -y
+	conda activate exp
 
 setup:
 	
-	sudo apt-get update && apt-get install ffmpeg libsm6 libxext6  -y
+	apt-get update && apt-get install ffmpeg libsm6 libxext6  -y
 	echo "Make sure python version >3.8 is installed."
 	pip install torch==1.12.0+cu113 torchvision==0.13.0+cu113 torchaudio==0.12.0 --extra-index-url https://download.pytorch.org/whl/cu113
 	pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
@@ -19,11 +23,11 @@ setup:
 download:
 	pip install modelscope
 	python download_models.py
-	mv models/damo/I2VGen-XL/ mv/models/
+	mv models/damo/I2VGen-XL/* models/
+	pip install opencv-python --upgrade
 
 autostart:
-	echo """echo $(/opt/conda/envs/exp/bin/python --version)
-	cd /root/VGen
+	echo """cd /root/VGen
 	/opt/conda/envs/exp/bin/python main.py""" > /root/onstart.sh
 
 run: setup download
