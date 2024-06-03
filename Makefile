@@ -27,8 +27,8 @@ download:
 	pip install opencv-python --upgrade
 
 autostart:
-	echo """cd /root/VGen
-	/opt/conda/envs/exp/bin/python main.py""" > /root/onstart.sh
+	echo """cd /root/VideoGenerator
+/opt/conda/envs/exp/bin/python /root/VideoGenerator/main.py""" > /root/onstart.sh
 
 run: setup download
 	echo "To run the inference, head over the notebook, Inference.ipynb"
