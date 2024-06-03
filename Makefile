@@ -13,8 +13,6 @@ setup:
 download:
 	pip install modelscope
 	python download_models.py
-	mv models/damo/I2VGen-XL/* models/
-
 
 run: setup download
 	echo "To run the inference, head over the notebook, Inference.ipynb"

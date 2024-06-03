@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Navigate to the directory containing the videos
-cd /root/VideoGenerator/workspace/experiments/gradio_test/ || exit
+cd /root/VGen/workspace/experiments/gradio_test/ || exit
 
 # Create the filelist.txt
 rm -f filelist.txt  # Ensure filelist.txt does not already exist

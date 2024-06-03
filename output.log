@@ -1,6 +1,6 @@
 Iteration executed successfuly...
-Running on local URL:  http://127.0.0.1:7860
-Running on public URL: https://beecd80e05eefb0641.gradio.live
+Running on local URL:  http://127.0.0.1:7861
+Running on public URL: https://00083364f66e5d3589.gradio.live
 
 This share link expires in 72 hours. For free permanent hosting and GPU upgrades, run `gradio deploy` from Terminal to deploy to Spaces (https://huggingface.co/spaces)
 Generating Image from Dalle-3
@@ -9,8 +9,8 @@ Creating Input list
 Removing earlier generated video
 Runnning video generation
 Run 1 of the script completed
-Renamed "workspace/experiments/gradio_test/gradio_test_01_00_C184EA264_00.mp4" to "workspace/experiments/gradio_test/1.mp4"
+Renamed "workspace/experiments/gradio_test/gradio_test_01_00_32960A4CB_00.mp4" to "workspace/experiments/gradio_test/1.mp4"
 Last frame saved to data/test_images/gradio_test.jpg
 Saved Last Video at workspace/experiments/gradio_test/1.mp4
 Keyboard interruption in main thread... closing server.
-Killing tunnel 127.0.0.1:7860 <> https://beecd80e05eefb0641.gradio.live
+Killing tunnel 127.0.0.1:7861 <> https://00083364f66e5d3589.gradio.live
