@@ -94,7 +94,7 @@ class Generator:
         self.file_path = file_path + ".txt"
         self.image_name = "/root/VideoGenerator/data/test_images/" + file_path + ".jpg"
         self.command = [
-                    'python', 'inference.py',
+                    '/opt/conda/envs/exp/bin/python', '/root/VideoGenerator/inference.py',
                     '--cfg', 'configs/i2vgen_xl_infer.yaml',
                     'test_list_path', self.file_path,
                     'test_model', 'models/i2vgen_xl_00854500.pth'
