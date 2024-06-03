@@ -187,7 +187,7 @@ class Generator:
         self.create_input_list()
 
         print("Removing earlier generated video")
-        self.clear_directory('/root/VGen/workspace/experiments/gradio_test')
+        self.clear_directory('/root/VideoGenerator/workspace/experiments/gradio_test')
         
         print("Runnning video generation")
         # subprocess.run(self.command) 
