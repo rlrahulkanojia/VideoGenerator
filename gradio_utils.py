@@ -92,7 +92,7 @@ class Generator:
         self.image_prompt = image_prompt
         self.video_prompt = video_prompt
         self.file_path = file_path + ".txt"
-        self.image_name = "data/test_images/" + file_path + ".jpg"
+        self.image_name = "/root/VideoGenerator/data/test_images/" + file_path + ".jpg"
         self.command = [
                     'python', 'inference.py',
                     '--cfg', 'configs/i2vgen_xl_infer.yaml',
