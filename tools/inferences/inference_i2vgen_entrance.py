@@ -185,13 +185,13 @@ def worker(gpu, cfg, cfg_update):
         unique_string = uuid.uuid4().hex.upper()[0:9]
         print("Starting the video generation..")
         print("Checking Message..")
-        # message = input_queue_listener.receive()
+        message = input_queue_listener.receive()
 
-        message = {
-            "duration": 12,
-            "jobID": "testing",
-            "prompt": "A frog in the pond.",
-        }
+        # message = {
+        #     "duration": 12,
+        #     "jobID": "testing",
+        #     "prompt": "A frog in the pond.",
+        # }
 
         if message is not None:
             if check_message(message) is True:
@@ -296,7 +296,6 @@ def worker(gpu, cfg, cfg_update):
             dist.barrier()
 
         break
-
 
 
 def check_message(message):
