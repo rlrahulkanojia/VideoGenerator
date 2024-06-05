@@ -204,7 +204,7 @@ def worker(gpu, cfg, cfg_update):
                 logging_queue.send(Message=message) 
 
                 # prompts = llm_prompt_generator(message["prompt"])
-                
+                print(f"Starting Generating video... {i}/{message['duration']//4}")
                 for i in range(1, message["duration"]//4 + 1):
 
                     if i == 1:
@@ -286,6 +286,7 @@ def worker(gpu, cfg, cfg_update):
                 upload_video()
 
             else:
+                print("Invalid message", message)
                 message["status"] = "failed"
                 message["description"] = "Duration must be among 4, 8, 12."
                 logging_queue.send(Message=message)
