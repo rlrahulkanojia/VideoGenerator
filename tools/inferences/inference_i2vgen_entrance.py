@@ -378,6 +378,8 @@ def worker(gpu, cfg, cfg_update):
             torch.cuda.synchronize()
             dist.barrier()
 
+        break
+
 
 
 def check_message(message):
