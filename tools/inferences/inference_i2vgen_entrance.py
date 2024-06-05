@@ -57,9 +57,9 @@ from gradio_utils import Generator, llm_prompt_generator
 
 ### Variables
 
-input_queue_listener = SQSQueue("input_prompt.fifo")
+input_queue_listener = SQSQueue("prompt_input.fifo")
 logging_queue = SQSQueueStandard("logging")
-output_queue = SQSQueue("output_prompt.fifo")
+output_queue = SQSQueue("prompt_output.fifo")
 
 ### Paths
 BUCKET = "phase1video"
