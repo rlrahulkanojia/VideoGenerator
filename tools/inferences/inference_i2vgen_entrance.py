@@ -67,6 +67,7 @@ output_queue = SQSQueue("prompt_output.fifo")
 BUCKET = "phase1video"
 img_key = "/root/VideoGenerator/data/test_images/tutorial.jpg"
 video_suffix = "/root/VideoGenerator/workspace/experiments/tutorial/"
+LOG_DIR = "/root/VideoGenerator/workspace/experiments/tutorial/"
 
 
 @INFER_ENGINE.register_function()
@@ -351,11 +352,15 @@ def worker(gpu, cfg, cfg_update):
                     video_data = rearrange(video_data, '(b f) c h w -> b c f h w', b = cfg.batch_size)
                     
                     text_size = cfg.resolution[-1]
-                    cap_name = re.sub(r'[^\w\s]', '', caption).replace(' ', '_')
-                    file_name = f'{img_name}_{cfg.world_size:02d}_{cfg.rank:02d}_{unique_string}_{0:02d}.mp4'
+                    file_name = f'{i}.mp4'
                 
-                    local_path = os.path.join(cfg.log_dir, f'{file_name}')
                     os.makedirs(os.path.dirname(local_path), exist_ok=True)
+
+                    local_path = os.path.join(LOG_DIR, f'{file_name}')
+
+                    print(local_path, cfg, file_name)
+
+
 
                     try:
                         save_i2vgen_video_safe(local_path, video_data.cpu(), captions, unique_string,  cfg.mean, cfg.std, text_size)
@@ -370,10 +375,10 @@ def worker(gpu, cfg, cfg_update):
                 message["description"] = "Duration must be among 4, 8, 12."
                 logging_queue.send(Message=message)
                 
-
-    if not cfg.debug:
-        torch.cuda.synchronize()
-        dist.barrier()
+        logging.info('Congratulations! The inference is completed!')
+        if not cfg.debug:
+            torch.cuda.synchronize()
+            dist.barrier()
 
 
 
