@@ -206,11 +206,11 @@ def worker(gpu, cfg, cfg_update):
                 logging_queue.send(Message=message) 
 
                 # prompts = llm_prompt_generator(message["prompt"])
-                print(f"Starting Generating video... {i}/{message['duration']//4}")
-
                 try:
 
                     for i in range(1, message["duration"]//4 + 1):
+
+                        print(f"Starting Generating video... {i}/{message['duration']//4}")
 
                         if i == 1:
                             image_generator(message["prompt"])
