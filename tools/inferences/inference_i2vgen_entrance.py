@@ -51,9 +51,11 @@ from utils.registry_class import INFER_ENGINE, MODEL, EMBEDDER, AUTO_ENCODER, DI
 
 
 ### Custom code:
-
+import cv2
+import requests
+from openai import OpenAI
 from SQS import SQSQueue, SQSQueueStandard
-from gradio_utils import Generator, llm_prompt_generator
+from gradio_utils import llm_prompt_generator
 
 ### Variables
 
@@ -64,6 +66,7 @@ output_queue = SQSQueue("prompt_output.fifo")
 ### Paths
 BUCKET = "phase1video"
 img_key = "/root/VideoGenerator/data/test_images/tutorial.jpg"
+video_suffix = "/root/VideoGenerator/workspace/experiments/tutorial/"
 
 
 @INFER_ENGINE.register_function()
@@ -282,8 +285,15 @@ def worker(gpu, cfg, cfg_update):
             if check_message(message) is True:
                 # Logging
                 logging_queue.send(Message=message) 
+
+                # prompts = llm_prompt_generator(message["prompt"])
                 
                 for i in range(1, message["duration"]//4 + 1):
+
+                    if i == 1:
+                        image_generator(message["prompt"], img_key)
+                    else:
+                        extract_last_image(i)
 
                     img_name = os.path.basename(img_key).split('.')[0]
                     image = Image.open(img_key)
@@ -353,8 +363,6 @@ def worker(gpu, cfg, cfg_update):
                     except Exception as e:
                         logging.info(f'Step: save text or video error with {e}')
 
-                    
-
                     print("Generating Video.. ", message)
 
             else:
@@ -393,3 +401,61 @@ def upload_video(jobID):
     print("Uploading Video to s3")
     input_queue_listener.s3_access.Bucket(BUCKET).upload_file("/root/VGen/workspace/experiments/gradio_test/output.mp4", f"{jobID}.mp4")
     print("Uploaded Video to s3")  
+
+
+def image_generator(image_prompt):
+    """
+    Generates an image from a prompt using OpenAI's API and saves it locally.
+
+    Parameters:
+    - prompt (str): The prompt to generate the image from.
+    - filename (str): The local filename to save the image.
+    """
+    # Call the OpenAI API to generate the image
+    response = OpenAI().images.generate(
+        model="dall-e-3",
+        prompt=image_prompt,
+        size="1024x1024",
+        quality="standard",
+        n=1,
+    )
+
+    # Get the image URL from the response
+    image_url = dict(response)['data'][0].url
+
+    # Download the image from the URL
+    image_response = requests.get(image_url)
+
+    # Save the image to a file
+    with open(img_key, 'wb') as file:
+        file.write(image_response.content)
+
+    print(f"Image saved as {img_key}")
+
+def extract_last_image(k):
+
+    # Capture video
+    cap = cv2.VideoCapture(video_suffix+str(k)+".mp4")
+    if not cap.isOpened():
+        print("Error: Couldn't open video file.")
+        return
+
+    last_frame = None
+
+    # Read through the video
+    while True:
+        ret, frame = cap.read()
+        if not ret:
+            break
+        last_frame = frame
+
+    # Save the last frame
+    if last_frame is not None:
+        cv2.imwrite(img_key, last_frame)
+        print(f"Last frame saved to {img_key}")
+    else:
+        print("No frames to save.")
+
+    # Release resources
+    cap.release()
+
