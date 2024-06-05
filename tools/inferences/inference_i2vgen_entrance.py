@@ -277,7 +277,7 @@ def worker(gpu, cfg, cfg_update):
         # message = input_queue_listener.receive()
 
         message = {
-            "duration": 4,
+            "duration": 12,
             "jobID": "testing",
             "prompt": "A frog in the pond.",
         }
@@ -285,6 +285,9 @@ def worker(gpu, cfg, cfg_update):
         if message is not None:
             if check_message(message) is True:
                 # Logging
+
+                clear_files(LOG_DIR)
+
                 logging_queue.send(Message=message) 
 
                 # prompts = llm_prompt_generator(message["prompt"])
@@ -399,7 +402,7 @@ def post_process(jobID, status, error):
 
 def upload_video(jobID):
     print("Uploading Video to s3")
-    input_queue_listener.s3_access.Bucket(BUCKET).upload_file("/root/VGen/workspace/experiments/gradio_test/output.mp4", f"{jobID}.mp4")
+    input_queue_listener.s3_access.Bucket(BUCKET).upload_file("/root/VideoGenerator/workspace/experiments/tutorial/output.mp4", f"{jobID}.mp4")
     print("Uploaded Video to s3")  
 
 
@@ -458,4 +461,14 @@ def extract_last_image(k):
 
     # Release resources
     cap.release()
+
+def clear_files(directory):
+    print("Clearing logging diretory")
+    for item in os.listdir(directory):
+        item_path = os.path.join(directory, item)
+        if os.path.isfile(item_path):
+            os.unlink(item_path) # Delete the now-empty directory
+
+def combine_videos(self):
+    os.system("/root/VideoGenerator/combine_videos.sh output.mp4")
 
