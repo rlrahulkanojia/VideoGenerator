@@ -353,14 +353,9 @@ def worker(gpu, cfg, cfg_update):
                     
                     text_size = cfg.resolution[-1]
                     file_name = f'{i}.mp4'
-                
                     os.makedirs(os.path.dirname(local_path), exist_ok=True)
-
                     local_path = os.path.join(LOG_DIR, f'{file_name}')
-
                     print(local_path, cfg, file_name)
-
-
 
                     try:
                         save_i2vgen_video_safe(local_path, video_data.cpu(), captions, unique_string,  cfg.mean, cfg.std, text_size)
