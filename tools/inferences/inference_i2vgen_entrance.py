@@ -295,7 +295,7 @@ def worker(gpu, cfg, cfg_update):
                 except Exception as r:
                     print("Error in Video Generation", str(r))
                     message["status"] = "failed"
-                    message["description"] = str(e)
+                    message["description"] = str(r)
                     logging_queue.send(Message=message)
 
             else:
