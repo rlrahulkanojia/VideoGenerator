@@ -266,7 +266,7 @@ def worker(gpu, cfg, cfg_update):
     
     # logging.info('Congratulations! The inference is completed!')
     # synchronize to finish some processes
-    while:
+    while True:
         unique_string = uuid.uuid4().hex.upper()[0:9]
         print("Starting the video generation..")
         print("Checking Message..")
