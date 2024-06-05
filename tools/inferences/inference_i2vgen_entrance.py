@@ -281,6 +281,10 @@ def worker(gpu, cfg, cfg_update):
 
                     print("Generating Video.. ", message)
 
+                combine_videos()
+                post_process(message["jobID"], status="success", error="")
+                upload_video()
+
             else:
                 message["status"] = "failed"
                 message["description"] = "Duration must be among 4, 8, 12."
