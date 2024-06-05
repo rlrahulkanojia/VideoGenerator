@@ -215,13 +215,13 @@ def worker(gpu, cfg, cfg_update):
                         print(f"Starting Generating video... {i}/{message['duration']//4}")
 
                         if i == 1:
-                            image_generator(prompts["image_prompt"])
+                            image_generator(prompts["Image_prompt"])
                         else:
                             extract_last_image(i-1)
 
                         img_name = os.path.basename(img_key).split('.')[0]
                         image = Image.open(img_key)
-                        caption = prompts["video_prompt"]
+                        caption = prompts["Video_prompt"]
                         captions = [caption]
 
                         if image.mode != 'RGB':

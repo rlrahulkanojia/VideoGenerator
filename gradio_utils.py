@@ -67,8 +67,8 @@ def llm_prompt_generator(User_Input):
                     User query would be a script that needs to be reformatted into a well-formed prompt
                     <Important>  
                     For each user query, you need to provide 2 prompts: 
-                    1. image_prompt: Detailed description of the initial image/scene of the video
-                    2. video_prompt: Description of the key events/transitions that should occur over the course of the video. The events should be brief and to the point. Make sure not to add events that include drastic changes.
+                    1. Image_prompt: Detailed description of the initial image/scene of the video
+                    2. Video_prompt: Description of the key events/transitions that should occur over the course of the video. The events should be brief and to the point. Make sure not to add events that include drastic changes.
                     User can also guide you in generating prompts by providing insights from their script
                     Do NOT provide an introductory paragraph or sentence.
                     Do NOT provide a conclusion.
