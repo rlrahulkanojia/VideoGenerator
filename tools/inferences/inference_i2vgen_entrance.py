@@ -390,6 +390,6 @@ def clear_files(directory):
         if os.path.isfile(item_path):
             os.unlink(item_path) # Delete the now-empty directory
 
-def combine_videos(self):
+def combine_videos():
     os.system("/root/VideoGenerator/combine_videos.sh output.mp4")
 
