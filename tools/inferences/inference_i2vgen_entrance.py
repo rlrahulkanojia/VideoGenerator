@@ -52,6 +52,7 @@ from utils.registry_class import INFER_ENGINE, MODEL, EMBEDDER, AUTO_ENCODER, DI
 
 ### Custom code:
 import cv2
+import time
 import requests
 from openai import OpenAI
 from SQS import SQSQueue, SQSQueueStandard
@@ -302,6 +303,9 @@ def worker(gpu, cfg, cfg_update):
         if not cfg.debug:
             torch.cuda.synchronize()
             dist.barrier()
+
+
+        time.sleep(2)
 
 
 
