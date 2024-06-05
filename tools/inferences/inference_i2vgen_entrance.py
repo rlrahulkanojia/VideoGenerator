@@ -294,6 +294,9 @@ def worker(gpu, cfg, cfg_update):
                 
                 except Exception as r:
                     print("Error in Video Generation", str(r))
+                    message["status"] = "failed"
+                    message["description"] = str(e)
+                    logging_queue.send(Message=message)
 
             else:
                 print("Invalid message", message)
@@ -316,6 +319,8 @@ def check_message(message):
         if message["duration"] not in [4, 8, 12]:
             print("Invalid message")
             return False
+        if "jobID" not in message.keys():
+            return False
     except:
         return False
     return True
@@ -335,7 +340,6 @@ def upload_video(jobID):
     print("Uploading Video to s3")
     input_queue_listener.s3_access.Bucket(BUCKET).upload_file("/root/VideoGenerator/workspace/experiments/tutorial/output.mp4", f"{jobID}.mp4")
     print("Uploaded Video to s3")  
-
 
 def image_generator(image_prompt):
     """
