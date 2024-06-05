@@ -193,9 +193,11 @@ def worker(gpu, cfg, cfg_update):
         #     "prompt": "A frog in the pond.",
         # }
 
-        print("Message received: ", message)
+        
 
         if message is not None:
+            print("Message received: ", message)
+
             if check_message(message) is True:
                 # Logging
                 try:
@@ -276,7 +278,6 @@ def worker(gpu, cfg, cfg_update):
                         file_name = f'{i}.mp4'
                         local_path = os.path.join(LOG_DIR, f'{file_name}')
                         os.makedirs(os.path.dirname(local_path), exist_ok=True)
-                        print(local_path, cfg, file_name)
 
                         try:
                             save_i2vgen_video_safe(local_path, video_data.cpu(), captions, unique_string,  cfg.mean, cfg.std, text_size)
@@ -288,7 +289,8 @@ def worker(gpu, cfg, cfg_update):
 
                     combine_videos()
                     post_process(message["jobID"], status="success", error="")
-                    upload_video()
+                    upload_video(message["jobID"])
+                    logging.info('Congratulations! The inference is completed!')
                 
                 except Exception as r:
                     print("Error in Video Generation", str(r))
@@ -299,7 +301,7 @@ def worker(gpu, cfg, cfg_update):
                 message["description"] = "Duration must be among 4, 8, 12."
                 logging_queue.send(Message=message)
                 
-        logging.info('Congratulations! The inference is completed!')
+       
         if not cfg.debug:
             torch.cuda.synchronize()
             dist.barrier()
