@@ -353,8 +353,8 @@ def worker(gpu, cfg, cfg_update):
                     
                     text_size = cfg.resolution[-1]
                     file_name = f'{i}.mp4'
-                    os.makedirs(os.path.dirname(local_path), exist_ok=True)
                     local_path = os.path.join(LOG_DIR, f'{file_name}')
+                    os.makedirs(os.path.dirname(local_path), exist_ok=True)
                     print(local_path, cfg, file_name)
 
                     try:
