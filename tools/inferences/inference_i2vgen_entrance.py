@@ -353,9 +353,11 @@ def image_generator(image_prompt):
 def extract_last_image(k):
 
     # Capture video
-    cap = cv2.VideoCapture(video_suffix+str(k)+".mp4")
+    path = video_suffix+str(k)+".mp4"
+    cap = cv2.VideoCapture(path)
+
     if not cap.isOpened():
-        print("Error: Couldn't open video file.")
+        print("Error: Couldn't open video file.", path)
         return
 
     last_frame = None
