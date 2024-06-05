@@ -291,7 +291,7 @@ def worker(gpu, cfg, cfg_update):
                 for i in range(1, message["duration"]//4 + 1):
 
                     if i == 1:
-                        image_generator(message["prompt"], img_key)
+                        image_generator(message["prompt"])
                     else:
                         extract_last_image(i)
 
