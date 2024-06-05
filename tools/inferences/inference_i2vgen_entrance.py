@@ -205,85 +205,91 @@ def worker(gpu, cfg, cfg_update):
 
                 # prompts = llm_prompt_generator(message["prompt"])
                 print(f"Starting Generating video... {i}/{message['duration']//4}")
-                for i in range(1, message["duration"]//4 + 1):
 
-                    if i == 1:
-                        image_generator(message["prompt"])
-                    else:
-                        extract_last_image(i-1)
+                try:
 
-                    img_name = os.path.basename(img_key).split('.')[0]
-                    image = Image.open(img_key)
-                    caption = message["prompt"]
-                    captions = [caption]
+                    for i in range(1, message["duration"]//4 + 1):
 
-                    if image.mode != 'RGB':
-                        image = image.convert('RGB')
-                    with torch.no_grad():
-                        image_tensor = vit_trans(image)
-                        image_tensor = image_tensor.unsqueeze(0)
-                        y_visual, y_text, y_words = clip_encoder(image=image_tensor, text=captions)
-                        y_visual = y_visual.unsqueeze(1)
+                        if i == 1:
+                            image_generator(message["prompt"])
+                        else:
+                            extract_last_image(i-1)
 
-                    fps_tensor =  torch.tensor([cfg.target_fps], dtype=torch.long, device=gpu)
-                    image_id_tensor = train_trans([image]).to(gpu)
-                    local_image = autoencoder.encode_firsr_stage(image_id_tensor, cfg.scale_factor).detach()
-                    local_image = local_image.unsqueeze(2).repeat_interleave(repeats=cfg.max_frames, dim=2)
+                        img_name = os.path.basename(img_key).split('.')[0]
+                        image = Image.open(img_key)
+                        caption = message["prompt"]
+                        captions = [caption]
 
-                    with torch.no_grad():
-                        pynvml.nvmlInit()
-                        handle=pynvml.nvmlDeviceGetHandleByIndex(0)
-                        meminfo=pynvml.nvmlDeviceGetMemoryInfo(handle)
-                        logging.info(f'GPU Memory used {meminfo.used / (1024 ** 3):.2f} GB')
-                        # Sample images
-                        with amp.autocast(enabled=cfg.use_fp16):
-                            # NOTE: For reproducibility, we have alread recorde the seed ``cur_seed''
-                            # torch.manual_seed(cur_seed) 
-                            # cur_seed = torch.get_rng_state()[0]
-                            # logging.info(f"Current seed {cur_seed}...")
-                            noise = torch.randn([1, 4, cfg.max_frames, int(cfg.resolution[1]/cfg.scale), int(cfg.resolution[0]/cfg.scale)])
-                            noise = noise.to(gpu)
-                            
-                            infer_img = black_image_feature if cfg.use_zero_infer else None
-                            model_kwargs=[
-                                {'y': y_words, 'image':y_visual, 'local_image':local_image, 'fps': fps_tensor}, 
-                                {'y': zero_y_negative, 'image':infer_img, 'local_image':local_image, 'fps': fps_tensor}]
-                            video_data = diffusion.ddim_sample_loop(
-                                noise=noise,
-                                model=model.eval(),
-                                model_kwargs=model_kwargs,
-                                guide_scale=cfg.guide_scale,
-                                ddim_timesteps=cfg.ddim_timesteps,
-                                eta=0.0)
-                            
-                    video_data = 1. / cfg.scale_factor * video_data # [1, 4, 32, 46]
-                    video_data = rearrange(video_data, 'b c f h w -> (b f) c h w')
-                    chunk_size = min(cfg.decoder_bs, video_data.shape[0])
-                    video_data_list = torch.chunk(video_data, video_data.shape[0]//chunk_size, dim=0)
-                    decode_data = []
-                    for vd_data in video_data_list:
-                        gen_frames = autoencoder.decode(vd_data)
-                        decode_data.append(gen_frames)
-                    video_data = torch.cat(decode_data, dim=0)
-                    video_data = rearrange(video_data, '(b f) c h w -> b c f h w', b = cfg.batch_size)
-                    
-                    text_size = cfg.resolution[-1]
-                    file_name = f'{i}.mp4'
-                    local_path = os.path.join(LOG_DIR, f'{file_name}')
-                    os.makedirs(os.path.dirname(local_path), exist_ok=True)
-                    print(local_path, cfg, file_name)
+                        if image.mode != 'RGB':
+                            image = image.convert('RGB')
+                        with torch.no_grad():
+                            image_tensor = vit_trans(image)
+                            image_tensor = image_tensor.unsqueeze(0)
+                            y_visual, y_text, y_words = clip_encoder(image=image_tensor, text=captions)
+                            y_visual = y_visual.unsqueeze(1)
 
-                    try:
-                        save_i2vgen_video_safe(local_path, video_data.cpu(), captions, unique_string,  cfg.mean, cfg.std, text_size)
-                        logging.info('Save video to dir %s:' % (local_path))
-                    except Exception as e:
-                        logging.info(f'Step: save text or video error with {e}')
+                        fps_tensor =  torch.tensor([cfg.target_fps], dtype=torch.long, device=gpu)
+                        image_id_tensor = train_trans([image]).to(gpu)
+                        local_image = autoencoder.encode_firsr_stage(image_id_tensor, cfg.scale_factor).detach()
+                        local_image = local_image.unsqueeze(2).repeat_interleave(repeats=cfg.max_frames, dim=2)
 
-                    print("Generating Video.. ", message)
+                        with torch.no_grad():
+                            pynvml.nvmlInit()
+                            handle=pynvml.nvmlDeviceGetHandleByIndex(0)
+                            meminfo=pynvml.nvmlDeviceGetMemoryInfo(handle)
+                            logging.info(f'GPU Memory used {meminfo.used / (1024 ** 3):.2f} GB')
+                            # Sample images
+                            with amp.autocast(enabled=cfg.use_fp16):
+                                # NOTE: For reproducibility, we have alread recorde the seed ``cur_seed''
+                                # torch.manual_seed(cur_seed) 
+                                # cur_seed = torch.get_rng_state()[0]
+                                # logging.info(f"Current seed {cur_seed}...")
+                                noise = torch.randn([1, 4, cfg.max_frames, int(cfg.resolution[1]/cfg.scale), int(cfg.resolution[0]/cfg.scale)])
+                                noise = noise.to(gpu)
+                                
+                                infer_img = black_image_feature if cfg.use_zero_infer else None
+                                model_kwargs=[
+                                    {'y': y_words, 'image':y_visual, 'local_image':local_image, 'fps': fps_tensor}, 
+                                    {'y': zero_y_negative, 'image':infer_img, 'local_image':local_image, 'fps': fps_tensor}]
+                                video_data = diffusion.ddim_sample_loop(
+                                    noise=noise,
+                                    model=model.eval(),
+                                    model_kwargs=model_kwargs,
+                                    guide_scale=cfg.guide_scale,
+                                    ddim_timesteps=cfg.ddim_timesteps,
+                                    eta=0.0)
+                                
+                        video_data = 1. / cfg.scale_factor * video_data # [1, 4, 32, 46]
+                        video_data = rearrange(video_data, 'b c f h w -> (b f) c h w')
+                        chunk_size = min(cfg.decoder_bs, video_data.shape[0])
+                        video_data_list = torch.chunk(video_data, video_data.shape[0]//chunk_size, dim=0)
+                        decode_data = []
+                        for vd_data in video_data_list:
+                            gen_frames = autoencoder.decode(vd_data)
+                            decode_data.append(gen_frames)
+                        video_data = torch.cat(decode_data, dim=0)
+                        video_data = rearrange(video_data, '(b f) c h w -> b c f h w', b = cfg.batch_size)
+                        
+                        text_size = cfg.resolution[-1]
+                        file_name = f'{i}.mp4'
+                        local_path = os.path.join(LOG_DIR, f'{file_name}')
+                        os.makedirs(os.path.dirname(local_path), exist_ok=True)
+                        print(local_path, cfg, file_name)
 
-                combine_videos()
-                post_process(message["jobID"], status="success", error="")
-                upload_video()
+                        try:
+                            save_i2vgen_video_safe(local_path, video_data.cpu(), captions, unique_string,  cfg.mean, cfg.std, text_size)
+                            logging.info('Save video to dir %s:' % (local_path))
+                        except Exception as e:
+                            logging.info(f'Step: save text or video error with {e}')
+
+                        print("Generating Video.. ", message)
+
+                    combine_videos()
+                    post_process(message["jobID"], status="success", error="")
+                    upload_video()
+                
+                except Exception as r:
+                    print("Error in Video Generation", str(r))
 
             else:
                 print("Invalid message", message)
