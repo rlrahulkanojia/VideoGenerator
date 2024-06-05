@@ -138,8 +138,6 @@ def worker(gpu, cfg, cfg_update):
             logging.StreamHandler(stream=sys.stdout)])
     logging.info(cfg)
     logging.info(f"Going into it2v_fullid_img_text inference on {gpu} gpu")
-
-    print("Current Config: ", cfg)
     
     # [Diffusion]
     diffusion = DIFFUSION.build(cfg.Diffusion)
@@ -183,93 +181,6 @@ def worker(gpu, cfg, cfg_update):
     model = DistributedDataParallel(model, device_ids=[gpu]) if not cfg.debug else model
     torch.cuda.empty_cache()
     
-    # [Test List]
-    # test_list = open(cfg.test_list_path).readlines()
-    # test_list = [item.strip() for item in test_list]
-    # num_videos = len(test_list)
-    # logging.info(f'There are {num_videos} videos. with {cfg.round} times')
-    # test_list = [item for item in test_list for _ in range(cfg.round)]
-
-    
-    # for idx, line in enumerate(test_list):
-    #     if line.startswith('#'):
-    #         logging.info(f'Skip {line}')
-    #         continue
-    #     logging.info(f"[{idx}]/[{num_videos}] Begin to sample {line} ...")
-    #     img_key, caption = line.split('|||')
-    #     img_name = os.path.basename(img_key).split('.')[0]
-    #     if caption == "":
-    #         logging.info(f'Caption is null of {img_key}, skip..')
-    #         continue
-    #     captions = [caption[:60]]
-        
-    #     image = Image.open(img_key)
-    #     if image.mode != 'RGB':
-    #         image = image.convert('RGB')
-    #     with torch.no_grad():
-    #         image_tensor = vit_trans(image)
-    #         image_tensor = image_tensor.unsqueeze(0)
-    #         y_visual, y_text, y_words = clip_encoder(image=image_tensor, text=captions)
-    #         y_visual = y_visual.unsqueeze(1)
-        
-    #     fps_tensor =  torch.tensor([cfg.target_fps], dtype=torch.long, device=gpu)
-    #     image_id_tensor = train_trans([image]).to(gpu)
-    #     local_image = autoencoder.encode_firsr_stage(image_id_tensor, cfg.scale_factor).detach()
-    #     local_image = local_image.unsqueeze(2).repeat_interleave(repeats=cfg.max_frames, dim=2)
-
-    #     with torch.no_grad():
-    #         pynvml.nvmlInit()
-    #         handle=pynvml.nvmlDeviceGetHandleByIndex(0)
-    #         meminfo=pynvml.nvmlDeviceGetMemoryInfo(handle)
-    #         logging.info(f'GPU Memory used {meminfo.used / (1024 ** 3):.2f} GB')
-    #         # Sample images
-    #         with amp.autocast(enabled=cfg.use_fp16):
-    #             # NOTE: For reproducibility, we have alread recorde the seed ``cur_seed''
-    #             # torch.manual_seed(cur_seed) 
-    #             # cur_seed = torch.get_rng_state()[0]
-    #             # logging.info(f"Current seed {cur_seed}...")
-    #             noise = torch.randn([1, 4, cfg.max_frames, int(cfg.resolution[1]/cfg.scale), int(cfg.resolution[0]/cfg.scale)])
-    #             noise = noise.to(gpu)
-                
-    #             infer_img = black_image_feature if cfg.use_zero_infer else None
-    #             model_kwargs=[
-    #                 {'y': y_words, 'image':y_visual, 'local_image':local_image, 'fps': fps_tensor}, 
-    #                 {'y': zero_y_negative, 'image':infer_img, 'local_image':local_image, 'fps': fps_tensor}]
-    #             video_data = diffusion.ddim_sample_loop(
-    #                 noise=noise,
-    #                 model=model.eval(),
-    #                 model_kwargs=model_kwargs,
-    #                 guide_scale=cfg.guide_scale,
-    #                 ddim_timesteps=cfg.ddim_timesteps,
-    #                 eta=0.0)
-        
-    #     video_data = 1. / cfg.scale_factor * video_data # [1, 4, 32, 46]
-    #     video_data = rearrange(video_data, 'b c f h w -> (b f) c h w')
-    #     chunk_size = min(cfg.decoder_bs, video_data.shape[0])
-    #     video_data_list = torch.chunk(video_data, video_data.shape[0]//chunk_size, dim=0)
-    #     decode_data = []
-    #     for vd_data in video_data_list:
-    #         gen_frames = autoencoder.decode(vd_data)
-    #         decode_data.append(gen_frames)
-    #     video_data = torch.cat(decode_data, dim=0)
-    #     video_data = rearrange(video_data, '(b f) c h w -> b c f h w', b = cfg.batch_size)
-        
-    #     text_size = cfg.resolution[-1]
-    #     cap_name = re.sub(r'[^\w\s]', '', caption).replace(' ', '_')
-    #     file_name = f'{img_name}_{cfg.world_size:02d}_{cfg.rank:02d}_{unique_string}_{idx:02d}.mp4'
-
-    #     local_path = os.path.join(cfg.log_dir, f'{file_name}')
-    #     os.makedirs(os.path.dirname(local_path), exist_ok=True)
-    #     try:
-    #         save_i2vgen_video_safe(local_path, video_data.cpu(), captions, unique_string,  cfg.mean, cfg.std, text_size)
-    #         # NOTE: If you want to visualize the comparison between input and output, you can use the following function.
-    #         # save_i2vgen_video(local_path, image_id_tensor.cpu(), video_data.cpu(), captions, cfg.mean, cfg.std, text_size)
-    #         logging.info('Save video to dir %s:' % (local_path))
-    #     except Exception as e:
-    #         logging.info(f'Step: save text or video error with {e}')
-    
-    # logging.info('Congratulations! The inference is completed!')
-    # synchronize to finish some processes
     while True:
         unique_string = uuid.uuid4().hex.upper()[0:9]
         print("Starting the video generation..")
@@ -285,8 +196,10 @@ def worker(gpu, cfg, cfg_update):
         if message is not None:
             if check_message(message) is True:
                 # Logging
-
-                clear_files(LOG_DIR)
+                try:
+                    clear_files(LOG_DIR)
+                except Exception as e:
+                    print("Error in clearing files", str(e))
 
                 logging_queue.send(Message=message) 
 
