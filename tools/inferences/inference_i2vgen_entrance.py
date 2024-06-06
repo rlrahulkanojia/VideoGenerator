@@ -193,10 +193,8 @@ def worker(gpu, cfg, cfg_update):
         #     "prompt": "A frog in the pond.",
         # }
 
-        
-
         if message is not None:
-            print("Message received: ", message)
+            # print("Message received: ", message)
 
             if check_message(message) is True:
                 # Logging
