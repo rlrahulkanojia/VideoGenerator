@@ -338,7 +338,7 @@ def post_process(jobID, status, error):
 
 def upload_video(jobID):
     print("Uploading Video to s3")
-    input_queue_listener.s3_access.Bucket(BUCKET).upload_file("/root/VideoGenerator/workspace/experiments/tutorial/output.mp4", f"{jobID}.mp4")
+    input_queue_listener.s3_access.Bucket(BUCKET).upload_file("/root/VideoGenerator/workspace/experiments/tutorial/output.mp4", f"{jobID}_stage.mp4")
     print("Uploaded Video to s3")  
 
 def image_generator(image_prompt):
