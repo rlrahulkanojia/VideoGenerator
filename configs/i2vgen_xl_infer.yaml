@@ -4,7 +4,7 @@ guide_scale: 9.0
 use_fp16: True
 chunk_size: 2
 decoder_bs: 2
-max_frames: 32
+max_frames: 64
 target_fps: 16      # FPS Conditions, not the encoding fps
 scale: 8
 seed: 8888

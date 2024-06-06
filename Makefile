@@ -34,3 +34,7 @@ autostart:
 
 run: conda conda-setup setup download autostart:
 	echo "Completed"
+
+
+# git clone https://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@github.com/rlrahulkanojia/VideoGenerator.git
+# cd VideoGenerator
