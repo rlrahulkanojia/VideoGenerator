@@ -184,7 +184,7 @@ def worker(gpu, cfg, cfg_update):
     
     while True:
         unique_string = uuid.uuid4().hex.upper()[0:9]
-        print("Checking Message..")
+        # print("Checking Message..")
         message = input_queue_listener.receive()
 
         # message = {
@@ -194,7 +194,7 @@ def worker(gpu, cfg, cfg_update):
         # }
 
         if message is not None:
-            # print("Message received: ", message)
+            print("Message received: ", message)
 
             if check_message(message) is True:
                 # Logging
