@@ -207,7 +207,7 @@ def worker(gpu, cfg, cfg_update):
 
                 prompts = llm_prompt_generator(message["prompt"])
                 message["duration"] = int(message["duration"]//4)
-                
+
                 try:
 
                     for i in range(1, message["duration"]//4 + 1):
@@ -316,12 +316,13 @@ def worker(gpu, cfg, cfg_update):
 
 def check_message(message):
     try:
-        if message["duration"] not in [4, 8, 12]:
+        if str(message["duration"]) not in ["4", "8", "12"]:
             print("Invalid message")
             return False
         if "jobID" not in message.keys():
             return False
-    except:
+    except Exception as e:
+        print("Error ", e)
         return False
     return True
 
