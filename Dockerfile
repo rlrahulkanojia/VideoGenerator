@@ -4,9 +4,6 @@ FROM nvidia/cuda:11.8.0-base-ubuntu22.04
 # Set the working directory in the container
 WORKDIR /app
 
-# Copy the current directory contents into the container at /app
-COPY . .
-
 # Install software-properties-common to add new repository
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
@@ -21,6 +18,9 @@ RUN apt-get update && \
 
 RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 1 && \
     update-alternatives --install /usr/bin/pip3 pip3 /usr/bin/pip3.8 1
+
+# Copy the current directory contents into the container at /app
+COPY . .
 
 # Optionally, install additional Python dependencies using requirements.txt
 # COPY requirements.txt .
