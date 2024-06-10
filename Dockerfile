@@ -8,6 +8,7 @@ WORKDIR /app
 COPY . .
 
 # Install software-properties-common to add new repository
+ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
     apt-get install -y software-properties-common
 
