@@ -3,9 +3,11 @@ import os
 import sys
 import json
 
+from dotenv import load_dotenv
+load_dotenv()
 
-AWS_ACCESS_KEY = "AKIA3FLD52CJ7QTALKMH"
-AWS_SECRET_KEY = "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"
+AWS_ACCESS_KEY = os.environ.get('AWS_ACCESS_KEY')
+AWS_SECRET_KEY = os.environ.get('AWS_SECRET_KEY')
  
 class SQSQueue(object):
  

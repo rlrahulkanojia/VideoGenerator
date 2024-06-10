@@ -27,3 +27,4 @@ imageio-ffmpeg
 diffusers
 boto3
 openai
+python-dotenv
