@@ -20,7 +20,7 @@ setup:
 
 download:
 	pip install modelscope
-	python download_models.py
+	python3 download_models.py
 	mv models/damo/I2VGen-XL/* models/
 	pip install opencv-python --upgrade
 
