@@ -20,7 +20,6 @@ RUN apt-get update && \
 RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 1
 
 # Set pip3 as the default for pip3, assuming pip3 is correctly installed
-RUN update-alternatives --install /usr/bin/pip3 pip3 /usr/bin/pip3 1
 
 # Copy the current directory contents into the container at /app
 COPY . .
