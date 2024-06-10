@@ -14,7 +14,7 @@ RUN add-apt-repository ppa:deadsnakes/ppa
 
 # Install Python 3.8
 RUN apt-get update && \
-    apt-get install -y python3.8 python3-pip
+    apt-get install -y python3.8 python3-pip python3.8-distutils
 
 # Set Python 3.8 as the default python3
 RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 1
