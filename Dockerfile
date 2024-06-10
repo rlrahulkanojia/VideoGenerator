@@ -7,6 +7,13 @@ WORKDIR /app
 # Copy the current directory contents into the container at /app
 COPY . .
 
+# Install software-properties-common to add new repository
+RUN apt-get update && \
+    apt-get install -y software-properties-common
+
+# Add the deadsnakes PPA
+RUN add-apt-repository ppa:deadsnakes/ppa
+
 # Install Python 3.8
 RUN apt-get update && \
     apt-get install -y python3.8 python3-pip
