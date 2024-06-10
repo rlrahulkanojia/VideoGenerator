@@ -28,9 +28,6 @@ autostart:
 	echo "cd /root/VideoGenerator" > /root/onstart.sh
 	echo "/opt/conda/envs/exp/bin/python /root/VideoGenerator/main.py" >> /root/onstart.sh
 
-run: conda conda-setup setup download autostart
-	echo "Completed"
-
 docker-build:
 	docker build -t vatfilm:staging .
 
