@@ -24,6 +24,10 @@ RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 1
 # Copy the current directory contents into the container at /app
 COPY . .
 
+RUN pip install torch==1.12.0+cu113 torchvision==0.13.0+cu113 torchaudio==0.12.0 --extra-index-url https://download.pytorch.org/whl/cu113
+RUN pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+
+
 # Optionally, install additional Python dependencies using requirements.txt
 # COPY requirements.txt .
 # RUN python3.8 -m pip install -r requirements.txt
