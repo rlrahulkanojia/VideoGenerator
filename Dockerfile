@@ -27,6 +27,9 @@ COPY . .
 RUN pip install torch==1.12.0+cu113 torchvision==0.13.0+cu113 torchaudio==0.12.0 --extra-index-url https://download.pytorch.org/whl/cu113
 RUN pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
 
+RUN apt-get update && apt-get install ffmpeg libsm6 libxext6  -y
+
+RUN make download
 
 # Optionally, install additional Python dependencies using requirements.txt
 # COPY requirements.txt .
