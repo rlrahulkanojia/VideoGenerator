@@ -39,7 +39,5 @@ run: conda conda-setup setup download autostart:
 docker-build:
 	docker build -t vatfilm:staging .
 	
-
-
-# git clone https://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@github.com/rlrahulkanojia/VideoGenerator.git
-# cd VideoGenerator
+docker-run:
+	docker run --rm -it --gpus all vatfilm:staging /bin/bash
