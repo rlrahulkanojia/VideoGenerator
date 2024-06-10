@@ -206,7 +206,7 @@ def worker(gpu, cfg, cfg_update):
                 logging_queue.send(Message=message) 
 
                 prompts = llm_prompt_generator(message["prompt"])
-                message["duration"] = int(message["duration"])//4
+                message["duration"] = int(message["duration"])
 
                 try:
 
